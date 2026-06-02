@@ -104,9 +104,9 @@ const handleLogout = (): void => {
               <br />
               <small class="text-muted">ID: {{ p.id }}</small>
             </div>
-            <span class="badge bg-dark rounded-pill">
-              Bs. {{ p.price ?? p.precio }} | Stock: {{ p.stock }} pzas.
-            </span>
+                <span class="badge bg-dark rounded-pill">
+                  Bs. {{ p.precio }} | Stock: {{ p.stock }} pzas.
+                </span>
           </li>
         </ul>
       </div>
