@@ -44,6 +44,7 @@ const handleLogout = (): void => {
 </script>
 
 <template>
+
   <div class="container mt-5" style="max-width: 600px; font-family: sans-serif;">
 
     <div v-if="!isAuthenticated" class="card shadow p-4">
