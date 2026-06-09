@@ -1,135 +1,115 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-// 1. EL CONTRATO: Obligamos a que cada producto tenga una estructura idéntica
+// 1. CONTRATOS DE TIPADO (TypeScript Estricto)
 interface Producto {
   id: number;
   nombre: string;
   precio: number;
   stock: number;
-  imagen: string;
 }
 
-// 2. EL INTERRUPTOR: Falso significa "bloqueado", verdadero significa "acceso concedido"
+// 2. ESTADO REACTIVO (Memoria RAM)
 const isAuthenticated = ref<boolean>(false);
-
-// 3. CAPTURA DE TECLADO: Variables reactivas conectadas al formulario
 const username = ref<string>('');
 const password = ref<string>('');
 const errorMessage = ref<string>('');
 
-// 4. LA BASE DE DATOS LOCAL: Datos duros protegidos por el contrato
+// 3. DATOS DEL ALMACÉN en variables
 const listaProductos: Producto[] = [
-  { 
-    id: 101, 
-    nombre: "Teclado Mecánico RGB", 
-    precio: 250, 
-    stock: 12, 
-    imagen: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=400" 
-  },
-  { 
-    id: 102, 
-    nombre: "Mouse Óptico Inalámbrico", 
-    precio: 110, 
-    stock: 20, 
-    imagen: "/imagenes/teclado.png" 
-  },
-  { 
-    id: 103, 
-    nombre: "Monitor Gamer 24' 144Hz", 
-    precio: 1450, 
-    stock: 5, 
-    imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=400" 
-  }
+  { id: 101, nombre: "Teclado Mecánico RGB", precio: 250, stock: 12 },
+  { id: 102, nombre: "Mouse Óptico Inalámbrico", precio: 110, stock: 20 },
+  { id: 103, nombre: "Monitor Gamer 24' 144Hz", precio: 1450, stock: 5 }
 ];
 
-// 5. ACCIÓN A: Validar credenciales (El guardián)
+// 4. LÓGICA DE CONTROL DE ACCESO
 const handleLogin = (): void => {
-  // Comparamos el valor interno (.value) de lo escrito con nuestro usuario maestro
   if (username.value === 'felix.maldonado' && password.value === 'itpm2026') {
-    isAuthenticated.value = true; // Movemos el interruptor a VERDADERO
-    errorMessage.value = '';       // Limpiamos errores anteriores
+    isAuthenticated.value = true;
+    errorMessage.value = '';
   } else {
     errorMessage.value = '❌ Credenciales incorrectas. Intente de nuevo, colega.';
   }
 };
 
-// 6. ACCIÓN B: El Reto de Salida (Cerrar Sesión)
 const handleLogout = (): void => {
-  isAuthenticated.value = false; // El interruptor vuelve a FALSO, destruyendo el panel
-  username.value = '';           // Limpieza de seguridad en memoria
+  isAuthenticated.value = false;
+  username.value = '';
   password.value = '';
 };
 </script>
 
 <template>
-
-  <div class="container mt-5" style="max-width: 600px; font-family: sans-serif;">
-
-    <div v-if="!isAuthenticated" class="card shadow p-4">
-      <h3 class="text-center mb-4">🔐 Control de Acceso - ITPM</h3>
-      
-      <form @submit.prevent="handleLogin">
-        <div class="mb-3">
-          <label class="form-label fw-bold">Usuario Docente</label>
-          <input v-model="username" type="text" class="form-control" placeholder="felix.maldonado" required />
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label fw-bold">Contraseña</label>
-          <input v-model="password" type="password" class="form-control" placeholder="••••••••" required />
-        </div>
-
-        <div v-if="errorMessage" class="alert alert-danger py-2 small text-center">
-          {{ errorMessage }}
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100 fw-bold">Ingresar al Sistema</button>
-      </form>
-    </div>
-
-
-    <div v-else class="card shadow p-4">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="text-success m-0">🚀 Almacén Activo</h3>
-        <button @click="handleLogout" class="btn btn-danger btn-sm fw-bold">Salir 🚪</button>
+  <div class="container mt-5" style="font-family: sans-serif; max-width: 600px;">
+    
+    <div v-if="!isAuthenticated" class="card shadow border-0">
+      <div class="card-header bg-dark text-white text-center py-3">
+        <h4 class="mb-0">🔐 Sistema de Gestión - ITPM</h4>
+        <small class="text-muted">Asignatura: DPW-207</small>
       </div>
-      
-      <p>Bienvenido, <strong>Lic. Félix Maldonado</strong>. Inventario verificado por TypeScript:</p>
-      <hr />
-
-      <!--<ul class="list-group">
-        <li v-for="p in listaProductos" :key="p.id" class="list-group-item d-flex justify-content-between">
-          <div>
-            <strong>📦 {{ p.nombre }}</strong> <br>
-            <small class="text-muted">Código Interno: {{ p.id }}</small>
+      <div class="card-body p-4">
+        <form @submit.prevent="handleLogin">
+          <div class="mb-3">
+            <label class="form-label fw-bold">Usuario Docente</label>
+            <input 
+              v-model="username" 
+              type="text" 
+              class="form-control" 
+              placeholder="Ej: felix.maldonado" 
+              required
+            />
           </div>
-          <span class="badge bg-dark align-self-center py-2">
-            Bs. {{ p.precio }} | Stock: {{ p.stock }} uds.
-          </span>
-        </li>
-      </ul>-->
-  <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
-  <div v-for="p in listaProductos" :key="p.id" class="col">
-    <div class="card h-100 shadow-sm border-0 bg-light">
-      <img :src="p.imagen" class="card-img-top" :alt="p.nombre" style="height: 150px; object-fit: cover;">
-      
-      <div class="card-body p-3">
-        <h6 class="card-title fw-bold mb-1">{{ p.nombre }}</h6>
-        <p class="card-text text-muted small mb-2">ID: {{ p.id }}</p>
-        
-        <div class="d-flex justify-content-between align-items-center">
-          <span class="badge bg-success">Bs. {{ p.precio }}</span>
-          <span class="text-primary small fw-bold">{{ p.stock }} pzas.</span>
-        </div>
-      </div>
-      
-      <div class="card-footer bg-white border-0 p-2">
-        <button class="btn btn-outline-dark btn-sm w-100">Gestionar Stock</button>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Contraseña</label>
+            <input 
+              v-model="password" 
+              type="password" 
+              class="form-control" 
+              placeholder="••••••••" 
+              required
+            />
+          </div>
+          
+          <div v-if="errorMessage" class="alert alert-danger py-2 text-center small mb-3">
+            {{ errorMessage }}
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm">
+            Ingresar al Sistema
+          </button>
+        </form>
       </div>
     </div>
-  </div>
-  </div>
+
+    <div v-else class="card shadow border-0">
+      <div class="card-header bg-success text-white d-flex justify-content-between align-items-center py-3">
+        <h5 class="mb-0">🚀 Panel de Almacén - Activo</h5>
+        <button @click="handleLogout" class="btn btn-sm btn-light fw-bold shadow-sm">
+          Salir 🚪
+        </button>
+      </div>
+      <div class="card-body p-4 text-center">
+        <h4 class="text-success fw-bold">¡Bienvenido, Lic. Félix Maldonado!</h4>
+        <p class="text-muted small">Control de Inventarios en Tiempo Real</p>
+        <hr />
+        
+        <ul class="list-group list-group-flush text-start">
+          <li 
+            v-for="p in listaProductos" 
+            :key="p.id" 
+            class="list-group-item d-flex justify-content-between align-items-center py-3"
+          >
+            <div>
+              📦 <span class="fw-bold">{{ p.nombre }}</span>
+              <br />
+              <small class="text-muted">ID: {{ p.id }}</small>
+            </div>
+                <span class="badge bg-dark rounded-pill">
+                  Bs. {{ p.precio }} | Stock: {{ p.stock }} pzas.
+                </span>
+          </li>
+        </ul>
+      </div>
     </div>
 
   </div>
