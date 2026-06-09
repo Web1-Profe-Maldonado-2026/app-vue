@@ -7,6 +7,7 @@ interface Producto {
   nombre: string;
   precio: number;
   stock: number;
+  imagen:string;
 }
 
 // 2. ESTADO REACTIVO (Memoria RAM)
@@ -17,9 +18,9 @@ const errorMessage = ref<string>('');
 
 // 3. DATOS DEL ALMACÉN en variables
 const listaProductos: Producto[] = [
-  { id: 101, nombre: "Teclado Mecánico RGB", precio: 250, stock: 12 },
-  { id: 102, nombre: "Mouse Óptico Inalámbrico", precio: 110, stock: 20 },
-  { id: 103, nombre: "Monitor Gamer 24' 144Hz", precio: 1450, stock: 5 }
+  { id: 101, nombre: "Teclado Mecánico RGB", precio: 250, stock: 12, imagen: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=400" ,
+  { id: 102, nombre: "Mouse Óptico Inalámbrico", precio: 110, stock: 20, imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=400" ,
+  { id: 103, nombre: "Monitor Gamer 24' 144Hz", precio: 1450, stock: 5,imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=400" }
 ];
 
 // 4. LÓGICA DE CONTROL DE ACCESO
@@ -92,23 +93,30 @@ const handleLogout = (): void => {
         <h4 class="text-success fw-bold">¡Bienvenido, Lic. Félix Maldonado!</h4>
         <p class="text-muted small">Control de Inventarios en Tiempo Real</p>
         <hr />
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+  <div v-for="p in listaProductos" :key="p.id" class="col">
+    <div class="card h-100 shadow-sm border-0 bg-light">
+      <img :src="p.imagen" class="card-img-top" :alt="p.nombre" style="height: 150px; object-fit: cover;">
+      
+      <div class="card-body p-3">
+        <h6 class="card-title fw-bold mb-1">{{ p.nombre }}</h6>
+        <p class="card-text text-muted small mb-2">ID: {{ p.id }}</p>
         
-        <ul class="list-group list-group-flush text-start">
-          <li 
-            v-for="p in listaProductos" 
-            :key="p.id" 
-            class="list-group-item d-flex justify-content-between align-items-center py-3"
-          >
-            <div>
-              📦 <span class="fw-bold">{{ p.nombre }}</span>
-              <br />
-              <small class="text-muted">ID: {{ p.id }}</small>
-            </div>
-                <span class="badge bg-dark rounded-pill">
-                  Bs. {{ p.precio }} | Stock: {{ p.stock }} pzas.
-                </span>
-          </li>
-        </ul>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="badge bg-success">Bs. {{ p.precio }}</span>
+          <span class="text-primary small fw-bold">{{ p.stock }} pzas.</span>
+        </div>
+      </div>
+      
+      <div class="card-footer bg-white border-0 p-2">
+        <button class="btn btn-outline-dark btn-sm w-100">Gestionar Stock</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
       </div>
     </div>
 
