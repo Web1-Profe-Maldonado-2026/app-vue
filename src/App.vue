@@ -7,6 +7,7 @@ interface Producto {
   nombre: string;
   precio: number;
   stock: number;
+  imagen: string;
 }
 
 // 2. EL INTERRUPTOR: Falso significa "bloqueado", verdadero significa "acceso concedido"
@@ -19,9 +20,27 @@ const errorMessage = ref<string>('');
 
 // 4. LA BASE DE DATOS LOCAL: Datos duros protegidos por el contrato
 const listaProductos: Producto[] = [
-  { id: 101, nombre: "Teclado Mecánico RGB", precio: 250, stock: 12 },
-  { id: 102, nombre: "Mouse Óptico Inalámbrico", precio: 110, stock: 20 },
-  { id: 103, nombre: "Monitor Gamer 24' 144Hz", precio: 1450, stock: 5 }
+  { 
+    id: 101, 
+    nombre: "Teclado Mecánico RGB", 
+    precio: 250, 
+    stock: 12, 
+    imagen: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=400" 
+  },
+  { 
+    id: 102, 
+    nombre: "Mouse Óptico Inalámbrico", 
+    precio: 110, 
+    stock: 20, 
+    imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=400" 
+  },
+  { 
+    id: 103, 
+    nombre: "Monitor Gamer 24' 144Hz", 
+    precio: 1450, 
+    stock: 5, 
+    imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=400" 
+  }
 ];
 
 // 5. ACCIÓN A: Validar credenciales (El guardián)
@@ -79,7 +98,7 @@ const handleLogout = (): void => {
       <p>Bienvenido, <strong>Lic. Félix Maldonado</strong>. Inventario verificado por TypeScript:</p>
       <hr />
 
-      <ul class="list-group">
+      <!--<ul class="list-group">
         <li v-for="p in listaProductos" :key="p.id" class="list-group-item d-flex justify-content-between">
           <div>
             <strong>📦 {{ p.nombre }}</strong> <br>
@@ -89,7 +108,28 @@ const handleLogout = (): void => {
             Bs. {{ p.precio }} | Stock: {{ p.stock }} uds.
           </span>
         </li>
-      </ul>
+      </ul>-->
+      <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+  <div v-for="p in listaProductos" :key="p.id" class="col">
+    <div class="card h-100 shadow-sm border-0 bg-light">
+      <img :src="p.imagen" class="card-img-top" :alt="p.nombre" style="height: 150px; object-fit: cover;">
+      
+      <div class="card-body p-3">
+        <h6 class="card-title fw-bold mb-1">{{ p.nombre }}</h6>
+        <p class="card-text text-muted small mb-2">ID: {{ p.id }}</p>
+        
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="badge bg-success">Bs. {{ p.precio }}</span>
+          <span class="text-primary small fw-bold">{{ p.stock }} pzas.</span>
+        </div>
+      </div>
+      
+      <div class="card-footer bg-white border-0 p-2">
+        <button class="btn btn-outline-dark btn-sm w-100">Gestionar Stock</button>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
 
   </div>
