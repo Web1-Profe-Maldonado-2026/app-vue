@@ -32,7 +32,7 @@ const listaProductos: Producto[] = [
     nombre: "Mouse Óptico Inalámbrico", 
     precio: 110, 
     stock: 20, 
-    imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=400" 
+    imagen: "src/assets/images/teclado.jpg" 
   },
   { 
     id: 103, 
