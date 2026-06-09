@@ -32,7 +32,7 @@ const listaProductos: Producto[] = [
     nombre: "Mouse Óptico Inalámbrico", 
     precio: 110, 
     stock: 20, 
-    imagen: ":src/assets/imagenes/teclado.png" 
+    imagen: "/imagenes/teclado.png" 
   },
   { 
     id: 103, 
@@ -109,7 +109,7 @@ const handleLogout = (): void => {
           </span>
         </li>
       </ul>-->
-      <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
   <div v-for="p in listaProductos" :key="p.id" class="col">
     <div class="card h-100 shadow-sm border-0 bg-light">
       <img :src="p.imagen" class="card-img-top" :alt="p.nombre" style="height: 150px; object-fit: cover;">
@@ -129,7 +129,7 @@ const handleLogout = (): void => {
       </div>
     </div>
   </div>
-</div>
+  </div>
     </div>
 
   </div>
